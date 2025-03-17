@@ -1,0 +1,21 @@
+# Flask应用配置
+debug: false
+testing: false
+secret_key: dev
+
+# 数据库配置
+sqlalchemy:
+  track_modifications: false
+
+# 跨域配置
+cors_origins:
+  - '*'
+
+# JWT配置
+jwt:
+  secret_key: dev
+  access_token_expires: 86400  # 24小时
+
+# 应用自定义配置
+max_answers_per_day: 10
+answer_display_time: 5

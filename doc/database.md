@@ -10,7 +10,7 @@
 |--------|------|------|--------|--------|------|
 | id | int | 11 | 否 | 自增 | 主键ID |
 | content | varchar | 500 | 否 | 无 | 答案内容 |
-| category | varchar | 50 | 是 | null | 答案分类 |
+| likes | int | 11 | 否 | 0 | 点赞数 |
 | created_at | datetime | - | 否 | CURRENT_TIMESTAMP | 创建时间 |
 | updated_at | datetime | - | 否 | CURRENT_TIMESTAMP | 更新时间 |
 
@@ -18,16 +18,15 @@
 | 索引名 | 类型 | 字段 | 说明 |
 |--------|------|------|------|
 | PRIMARY | 主键 | id | 主键索引 |
-| idx_category | 普通 | category | 分类索引 |
 | idx_created_at | 普通 | created_at | 创建时间索引 |
 
 ### 示例数据
 ```sql
-INSERT INTO answers (content, category) VALUES
-('相信你的直觉', '决策'),
-('现在就行动', '行动'),
-('等待更好的时机', '时机'),
-('保持耐心', '建议');
+INSERT INTO answers (content) VALUES
+('相信你的直觉'),
+('现在就行动'),
+('等待更好的时机'),
+('保持耐心');
 ```
 
 ## 系统配置表（configs）

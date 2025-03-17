@@ -1,0 +1,9 @@
+# 继承基础配置
+inherit: base.yml
+
+# 开发环境特定配置
+debug: true
+
+# 数据库URI
+sqlalchemy:
+  database_uri: mysql+pymysql://root:pwd123456@localhost:3306/answer_book

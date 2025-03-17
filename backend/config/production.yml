@@ -1,0 +1,21 @@
+# 继承基础配置
+inherit: base.yml
+
+# 生产环境特定配置
+debug: false
+
+# 数据库URI
+sqlalchemy:
+  database_uri: mysql+pymysql://prod_user:prod_password@localhost:3306/answer_book
+
+# 跨域配置
+cors_origins:
+  - 'https://answer-book.example.com'
+
+# JWT配置
+jwt:
+  secret_key: prod-secret-key
+
+# 应用自定义配置
+max_answers_per_day: 20
+answer_display_time: 3

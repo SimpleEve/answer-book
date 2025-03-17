@@ -30,7 +30,7 @@
     "data": {
         "id": 1,
         "content": "答案内容",
-        "category": "分类",
+        "likes": 0,
         "created_at": "2024-01-01 12:00:00"
     }
 }
@@ -88,7 +88,7 @@
     "data": {
         "id": 1,
         "content": "答案内容",
-        "category": "分类",
+        "likes": 0,
         "created_at": "2024-01-01 12:00:00"
     }
 }
@@ -134,5 +134,26 @@
     "code": 200,
     "message": "success",
     "data": null
+}
+```
+
+### 6. 点赞答案
+
+#### 请求信息
+- 方法：`POST`
+- 路径：`/answers/{id}/like`
+- 参数：无
+
+#### 响应信息
+```json
+{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "id": 1,
+        "content": "答案内容",
+        "likes": 1,
+        "created_at": "2024-01-01 12:00:00"
+    }
 }
 ```

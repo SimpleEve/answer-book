@@ -52,7 +52,16 @@ cd backend
 pip install -r requirements.txt
 ```
 
-3. 启动Flask服务
+3. 初始化数据库
+```bash
+# 使用开发环境配置初始化数据库
+python scripts/init_db.py --env development
+
+# 或使用生产环境配置初始化数据库
+# python scripts/init_db.py --env production
+```
+
+4. 启动Flask服务
 ```bash
 python run.py
 ```
