@@ -51,18 +51,34 @@ def init_database(config, answers):
         engine = create_engine(db_uri)
         with Session(engine) as session:
             # 创建answers表
+            # 创建表
             session.execute(text("""
             CREATE TABLE IF NOT EXISTS answers (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                content TEXT NOT NULL,
-                likes INT DEFAULT 0
-            )
+                content VARCHAR(500) NOT NULL,
+                likes INT DEFAULT 0,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
             """))
+            
+            # 创建索引
+            # 检查索引是否存在
+            index_exists = session.execute(text("""
+                SELECT COUNT(*) 
+                FROM information_schema.statistics 
+                WHERE table_schema = :db_name 
+                AND table_name = 'answers' 
+                AND index_name = 'idx_created_at'
+            """), {"db_name": db_name}).scalar()
+            
+            if not index_exists:
+                session.execute(text("CREATE INDEX idx_created_at ON answers(created_at)"))
             
             # 插入答案数据
             for answer in answers:
                 session.execute(
-                    text("INSERT INTO answers (content, likes) VALUES (:content, :likes)"),
+                    text("INSERT INTO answers (content, likes, created_at, updated_at) VALUES (:content, :likes, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"),
                     {"content": answer, "likes": 0}
                 )
             

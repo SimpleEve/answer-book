@@ -2,9 +2,9 @@ import os
 import yaml
 from pathlib import Path
 
-def load_config():
+def load_config(config_name=None):
     # 获取当前环境
-    env = os.getenv('FLASK_ENV', 'development')
+    env = config_name or os.getenv('FLASK_ENV', 'development')
     config_dir = Path(__file__).parent
     
     # 加载基础配置
@@ -28,6 +28,14 @@ def load_config():
                         deep_merge(base[key], value)
                     else:
                         base[key] = value
+            
+            # 合并配置
+            deep_merge(config, env_config)
+            
+            # 处理SQLAlchemy配置
+            if 'sqlalchemy' in config and 'database_uri' in config['sqlalchemy']:
+                config['SQLALCHEMY_DATABASE_URI'] = config['sqlalchemy']['database_uri']
+                del config['sqlalchemy']
             
             deep_merge(config, env_config)
     

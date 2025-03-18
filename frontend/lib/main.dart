@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'services/answer_service.dart';
 
 void main() {
   runApp(const AnswerBookApp());
@@ -98,6 +99,7 @@ class _GestureDrawPageState extends State<GestureDrawPage>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isDrawingComplete = false;
+  Map<String, dynamic>? _randomAnswer;
 
   @override
   void initState() {
@@ -110,12 +112,23 @@ class _GestureDrawPageState extends State<GestureDrawPage>
       parent: _controller,
       curve: Curves.easeInOut,
     );
+    _fetchRandomAnswer();
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _fetchRandomAnswer() async {
+    try {
+      final answerService = AnswerService();
+      final answer = await answerService.getRandomAnswer();
+      setState(() => _randomAnswer = answer);
+    } catch (e) {
+      // 错误处理
+    }
   }
 
   void _startBookTransition() {
@@ -125,7 +138,7 @@ class _GestureDrawPageState extends State<GestureDrawPage>
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 800),
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const AnswerPage(),
+              AnswerPage(answer: _randomAnswer),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -260,7 +273,8 @@ class GesturePainter extends CustomPainter {
 }
 
 class AnswerPage extends StatefulWidget {
-  const AnswerPage({super.key});
+  final Map<String, dynamic>? answer;
+  const AnswerPage({super.key, this.answer});
 
   @override
   State<AnswerPage> createState() => _AnswerPageState();
@@ -358,12 +372,13 @@ class _AnswerPageState extends State<AnswerPage>
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            '去做吧',
+                            widget.answer?['content'] ?? '暂无答案',
                             style: GoogleFonts.notoSans(
                               fontSize: 32,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),

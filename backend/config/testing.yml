@@ -1,0 +1,6 @@
+# 测试环境配置
+SQLALCHEMY_DATABASE_URI: 'sqlite:///:memory:'
+SQLALCHEMY_TRACK_MODIFICATIONS: false
+TESTING: true
+SECRET_KEY: 'test-secret-key'
+DEBUG: true
