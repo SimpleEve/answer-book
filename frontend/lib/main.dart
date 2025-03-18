@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'services/http_config.dart';
 import 'services/answer_service.dart';
 
 void main() {
@@ -99,6 +100,7 @@ class _GestureDrawPageState extends State<GestureDrawPage>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _isDrawingComplete = false;
+  bool _isDrawing = false;
   Map<String, dynamic>? _randomAnswer;
 
   @override
@@ -176,6 +178,7 @@ class _GestureDrawPageState extends State<GestureDrawPage>
               onPanStart: (details) {
                 if (!_isDrawingComplete) {
                   setState(() {
+                    _isDrawing = true;
                     _currentLine = [details.localPosition];
                     _lines.add(_currentLine);
                   });
@@ -208,13 +211,13 @@ class _GestureDrawPageState extends State<GestureDrawPage>
                         child: Icon(
                           Icons.auto_stories,
                           size: 80,
-                          color: Colors.white
-                              .withOpacity(_isDrawingComplete ? 0.0 : 1.0),
+                          color: Colors.white.withOpacity(
+                              _isDrawing || _isDrawingComplete ? 0.0 : 1.0),
                         ),
                       ),
                       const SizedBox(height: 32),
                       AnimatedOpacity(
-                        opacity: _isDrawingComplete ? 0.0 : 1.0,
+                        opacity: _isDrawing ? 0.0 : 1.0,
                         duration: const Duration(milliseconds: 300),
                         child: Column(
                           children: [
@@ -282,6 +285,7 @@ class AnswerPage extends StatefulWidget {
 
 class _AnswerPageState extends State<AnswerPage>
     with SingleTickerProviderStateMixin {
+  bool _isLiked = false;
   late AnimationController _controller;
   late Animation<double> _animation;
   bool _showAnswer = false;
@@ -379,6 +383,48 @@ class _AnswerPageState extends State<AnswerPage>
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  if (!_isLiked && widget.answer != null) {
+                                    final response = await HttpConfig.post(
+                                        '/answers/${widget.answer!['id']}/like');
+                                    if (response.statusCode == 200) {
+                                      setState(() {
+                                        _isLiked = true;
+                                        widget.answer!['likes'] =
+                                            (widget.answer!['likes'] ?? 0) + 1;
+                                      });
+                                    }
+                                  }
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  transform: Matrix4.identity()
+                                    ..scale(_isLiked ? 1.2 : 1.0),
+                                  child: Icon(
+                                    _isLiked
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: _isLiked ? Colors.red : Colors.white,
+                                    size: 28,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '${widget.answer?['likes'] ?? 0}',
+                                style: GoogleFonts.notoSans(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
