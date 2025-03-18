@@ -2,6 +2,7 @@
 
 ## 项目概述
 这是一个基于Flutter和Python+Flask的答案之书应用。用户可以通过优雅的翻书动画效果获得随机答案，并且可以对喜欢的答案进行点赞互动。
+这个应用的前后端程序、Markdown 文档等都由[Trae 国际版](https://www.trae.ai/)完成，真正实现了零代码开发。
 
 ## 目录结构
 ```
@@ -106,3 +107,8 @@ flutter run
 
 ## 数据字典
 详见 [数据字典](doc/database.md)
+
+## 欢迎一起学习 AI 零代码编程
+
+**求索 AI 时代**
+![](wechat-qrcode.jpg)
