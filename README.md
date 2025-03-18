@@ -2,7 +2,10 @@
 
 ## 项目概述
 这是一个基于Flutter和Python+Flask的答案之书应用。用户可以通过优雅的翻书动画效果获得随机答案，并且可以对喜欢的答案进行点赞互动。
+
 这个应用的前后端程序、Markdown 文档等都由[Trae 国际版](https://www.trae.ai/)完成，真正实现了零代码开发。
+
+开发中的关键流程和Prompt已经记录在这里：[点击打开文档](https://zcnpwpr71iu9.feishu.cn/wiki/VXehwQlrsiUOpRkuzsvcZ1eYnUh)
 
 ## 目录结构
 ```
