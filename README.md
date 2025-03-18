@@ -1,7 +1,7 @@
 # 答案之书应用
 
 ## 项目概述
-这是一个基于Flutter和Python+Flask的答案之书应用。用户可以通过优雅的翻书动画效果获得随机答案。
+这是一个基于Flutter和Python+Flask的答案之书应用。用户可以通过优雅的翻书动画效果获得随机答案，并且可以对喜欢的答案进行点赞互动。
 
 ## 目录结构
 ```
@@ -12,9 +12,24 @@
 │   ├── api.md         # API接口文档
 │   └── database.md    # 数据字典文档
 ├── frontend/          # Flutter前端应用
+│   ├── lib/           # 核心代码目录
+│   │   ├── main.dart  # 应用入口文件
+│   │   └── services/  # 服务层代码
+│   ├── assets/        # 静态资源目录
+│   │   ├── fonts/     # 字体文件
+│   │   └── images/    # 图片资源
+│   ├── test/          # 测试代码
+│   └── pubspec.yaml   # 项目配置和依赖
 └── backend/           # Python后端应用
     ├── app/           # Flask应用代码
+    │   ├── api.py     # API接口实现
+    │   └── models.py  # 数据模型
     ├── config/        # 配置文件
+    │   ├── base.yml   # 基础配置
+    │   ├── development.yml # 开发环境配置
+    │   └── production.yml # 生产环境配置
+    ├── scripts/       # 脚本工具
+    │   └── init_db.py # 数据库初始化脚本
     ├── requirements.txt # Python依赖
     └── README.md      # 后端说明文档
 ```
@@ -24,6 +39,8 @@
 ### 前端技术栈
 - Flutter：跨平台UI框架
 - Material Design：UI设计规范
+- 翻书动画：自定义动画效果
+- 点赞功能：用户互动体验
 
 ### 后端技术栈
 - Python：编程语言
@@ -63,7 +80,7 @@ python scripts/init_db.py --env development
 
 4. 启动Flask服务
 ```bash
-python run.py
+flask run
 ```
 
 ### 前端应用
@@ -84,11 +101,8 @@ flutter run
 3. 重要功能需要编写测试用例
 4. API文档及时更新
 
-## 项目进度
-详见 [开发进度文档](./progress.md)
-
 ## API文档
-详见 [API文档](./api.md)
+详见 [API文档](doc/api.md)
 
 ## 数据字典
-详见 [数据字典](./database.md)
+详见 [数据字典](doc/database.md)
